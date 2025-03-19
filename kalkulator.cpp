@@ -1,81 +1,81 @@
-﻿#include <iostream>
-
-double mem = 0;
-bool mem_used = 0; // przyjmuje 1 jesl w pamiec byla uzyta
+#include <iostream>
 
 double add(double a, double b) {
-    mem_used = 1;
     return a + b;
-} 
+}
 
 double sub(double a, double b) {
-    mem_used = 1;
     return a - b;
 }
 
 double mul(double a, double b) {
-    mem_used = 1;
     return a * b;
 }
 
-double div(double a, double b) {
-    if (!b) {
-        std::cout << "ERROR";
-            return NULL;
+double div(double a, double b) { 
+    if (!b) {// jesli b = 0 zwraca a by nie zmieniac wyniku w pamieci
+        std::cout << "Dzielenie przez 0.\n";
+        return a;
     }
-    mem_used = 1;
     return a / b;
 }
 
 double mod(double a, double b) {
-    if (!b) {
-        std::cout << "ERROR";
-        return NULL;
+    if (!b) {//jesli b = 0 zwraca a by nie zmieniac wyniku w pamieci
+        std::cout << "Dzielenie przez 0.\n";
+        return a;
     }
-    mem_used = 1;
     return a - static_cast<int>(a / b) * b;
 }
-
-void erase() {
-    mem = 0;
+double erase() {
+    return 0;
 }
 
 void menu() {
-    std::cout << "\nMENU\n\n1)+\n2)-\n3)*\n4)/\n5)%\n6)MCR\n";
-    std::cout << "\nWybierz funkcje: ";
-    int funkcja;
-    std::cin >> funkcja;
-    if (funkcja > 0 && funkcja <= 5) {
-        double a, b;
-        std::cout << "Podaj a:";
-        std::cin >> a;
-        std::cout << "Podaj b:";
-        std::cin >> b;
-
-        switch (funkcja) {
-        case 1:
-            mem = add(a, b);
+    double mem = 0;
+    std::cout << "Podaj a: ";
+    std::cin >> mem;
+    double b;
+    char operacja;
+    do {
+        std::cout << "Operacja: ";
+        std::cin >> operacja;
+        switch (operacja) {
+        case '+':
+            std::cout << "Podaj b: ";
+            std::cin >> b;
+            mem = add(mem, b);
             break;
-        case 2:
-            mem = sub(a, b);
+        case '-':
+            std::cout << "Podaj b: ";
+            std::cin >> b;
+            mem = sub(mem, b);
             break;
-        case 3:
-            mem = mul(a, b);
+        case '*':
+            std::cout << "Podaj b: ";
+            std::cin >> b;
+            mem = mul(mem, b);
             break;
-        case 4:
-            mem = div(a, b);
+        case '/':
+            std::cout << "Podaj b: ";
+            std::cin >> b;
+            mem = div(mem, b);
             break;
-        case 5:
-            mem = mod(a, b);
+        case '%':
+            std::cout << "Podaj b: ";
+            std::cin >> b;
+            mem = mod(mem, b);
             break;
-
+        case 'E':
+            mem = erase();
+            break;
+        default:
+            std::cout << "Niedostepna operacja.\n";
+            break;
         }
-    }
-    else if (funkcja == 6) {
-        erase();
-    }
-    std::cout << mem << '\n';
- }
+        std::cout << "Wynik w pamieci: " << mem << "\n\n";
+    } while (operacja != 'E');
+}
 
 int main()
 {
